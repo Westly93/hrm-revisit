@@ -1,0 +1,31 @@
+{% extends "base.html" %} {% load tailwind_filters %} {% block content %}
+<section
+  class="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800"
+>
+  <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white">
+    Submit Your Application
+  </h2>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %} {{form|crispy}}
+    <!---->
+    {% if request.user.profile.get_profile_completion < 75 %}
+    <p class="text-red-500">
+      Update your profile to stand a good chance of getting the job!!
+    </p>
+    {% endif %}
+    <div class="mt-6">
+      <button
+        class="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50"
+      >
+        Next <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  </form>
+</section>
+<!---->
+<div class="w-full max-w-md mx-auto"></div>
+
+{% endblock content %} {% block scripts %}
+<script></script>
+{% endblock scripts %}

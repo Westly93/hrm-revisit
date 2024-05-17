@@ -1,0 +1,5 @@
+venv
+.prettierignore
+.env
+db.sqlite3
+sqlite3

@@ -1,0 +1,137 @@
+{% extends 'base.html' %} {% load tailwind_filters %}
+<!---->
+{% block content %}
+<section>
+  <h3 class="my-4 text-3xl">Contract Details</h3>
+  <div class="flex py-3">
+    <p class="flex-1">Employee Name</p>
+    <p>{{obj.employee.profile.first_name}} {{obj.employee.profile.surname}}</p>
+  </div>
+  <div class="flex py-3">
+    <p class="flex-1">Contract Type</p>
+    <p>{{obj.contract_type}}</p>
+  </div>
+  <div class="flex py-3">
+    <p class="flex-1">Position</p>
+    <p>{{obj.position}}</p>
+  </div>
+  <div class="flex py-3">
+    <p class="flex-1">Department</p>
+    <p>{{obj.position.department.name}}</p>
+  </div>
+  <div class="flex py-3">
+    <p class="flex-1">Start Date</p>
+    <p>{{obj.start_date}}</p>
+  </div>
+  <div class="flex py-3">
+    <p class="flex-1">End Date</p>
+    <p>{{obj.end_date}}</p>
+  </div>
+  <hr />
+  <div class="mt-4">
+    <div class="my-5">
+      <div class="flex my-4">
+        <h4 class="text-2xl flex-1">Academic Qualifications Details</h4>
+        <button
+          class="bg-black text-teal-500 p-2 rounded-md hover:text-black hover:bg-teal-500"
+          hx-get="{% url 'contracts:new_academic_qualification' obj.id %}"
+          hx-target="#academic-qualification-form"
+          hx-swap="beforeend"
+        >
+          Add Academic Qualification +
+        </button>
+      </div>
+      {% if obj.employee.academic_qualifications.exists %}
+      <div id="academic-qualifications">
+        {% include "contracts/partials/academic_qualifications.html" %}
+      </div>
+      {% endif %}
+      <div id="academic-qualification-form"></div>
+    </div>
+    <div class="flex my-4">
+      <h4 class="text-2xl flex-1">Next of Kin Details</h4>
+      {% if not obj.employee.next_of_kin.exists %}
+      <button
+        class="bg-black text-teal-500 p-2 rounded-md hover:text-black hover:bg-teal-500"
+        hx-get="{% url 'contracts:new_next_of_kin' obj.id %}"
+        hx-target="#next_of_kin_form"
+        hx-swap="outerHTML"
+      >
+        Add Next of kin +
+      </button>
+      {% endif %}
+    </div>
+    {% if obj.employee.next_of_kin.exists %}
+    <!---->
+
+    {% for next_of_kin in obj.employee.next_of_kin.all %}
+    <div id="next_of_kin" class="flex">
+      {% include "contracts/partials/next_of_kin.html" %}
+    </div>
+    {% endfor %} {% else %}
+    <div id="next_of_kin_form"></div>
+    {% endif %}
+
+    <div class="my-5">
+      <div class="flex my-4">
+        <h4 class="text-2xl flex-1">Beneficiary Details</h4>
+        <button
+          class="bg-black text-teal-500 p-2 rounded-md hover:text-black hover:bg-teal-500"
+          hx-get="{% url 'contracts:new_beneficiary' obj.id %}"
+          hx-target="#beneficiary-form"
+          hx-swap="beforeend"
+        >
+          Add Beneficiary +
+        </button>
+      </div>
+      {% if obj.employee.beneficiaries.exists %}
+      <div id="beneficiaries">
+        {% include "contracts/partials/beneficiaries.html"%}
+      </div>
+      {% endif %}
+      <div id="beneficiary-form"></div>
+    </div>
+    <!--New spouse-->
+    <div class="my-5">
+      <div class="flex my-4">
+        <h4 class="text-2xl flex-1">Spouse Details</h4>
+        <button
+          class="bg-black text-teal-500 p-2 rounded-md hover:text-black hover:bg-teal-500"
+          hx-get="{% url 'contracts:new_spouse' obj.id %}"
+          hx-target="#spouse-form"
+          hx-swap="outerHTML"
+        >
+          Add Spouse +
+        </button>
+      </div>
+      {% if obj.employee.spouses.exists%}
+      <div id="spouse-list">
+        {% include "contracts/partials/spouses.html" %}
+      </div>
+      {% endif %}
+      <div id="spouse-form"></div>
+    </div>
+    <!--New Children -->
+    <div class="my-5">
+      <div class="flex my-4">
+        <h4 class="text-2xl flex-1">Children Details</h4>
+        <button
+          class="bg-black text-teal-500 p-2 rounded-md hover:text-black hover:bg-teal-500"
+          hx-get="{% url 'contracts:add_children' obj.id %}"
+          hx-target="#children-form"
+          hx-swap="beforeend"
+        >
+          Add Children +
+        </button>
+      </div>
+
+      {% if obj.employee.children.exists %}
+      <div id="children-list">
+        {% include "contracts/partials/children_list.html" %}
+      </div>
+      {% endif %}
+      <div id="children-form"></div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

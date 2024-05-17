@@ -1,0 +1,30 @@
+{% if request.user.academic_qualifications.exists %}
+
+<div class="flex flex-col w-full">
+  {% for qualification in request.user.academic_qualifications.all %}
+  <div class="my-3">
+    <div class="flex justify-between">
+      <h3 class="text-xl">{{qualification.institution }}</h3>
+      <i
+        hx-target="#edit-{{qualification.id}}"
+        hx-swap="outerHTML delay:1s"
+        hx-get="{% url 'adverts:edit_qualification' qualification.id %}"
+        class="fa-solid fa-pen-to-square cursor-pointer text-teal-700"
+      ></i>
+    </div>
+    <p>{{ qualification.field_of_study }}, {{qualification.level}}</p>
+    <p class="text-gray-500 text-sm">
+      {{qualification.start_year|date:"Y" }} -
+      {{qualification.end_year|date:"Y"}}
+    </p>
+    <p class="text-gray-500">Grade: {{qualification.grade}}</p>
+  </div>
+  {% if not forloop.last %}
+  <hr />
+  {% endif %}
+  <div id="edit-{{qualification.id}}"></div>
+  {% endfor %}
+</div>
+{% else %}
+<p class="text-red-700 font-semibold">No Qualifications Yet</p>
+{% endif %}

@@ -1,0 +1,33 @@
+{% load custom_filters %} {% for application in applications %}
+<tr id="application-info">
+  <td class="py-3 px-2">
+    {{ application.applicant.profile.first_name}}
+    {{application.applicant.profile.surname}}
+  </td>
+  <td class="py-3 px-2">{{ application.applicant.profile.gender}}</td>
+  <td class="py-3 px-2">
+    <p>{{ application|calculate_total_weight }}%</p>
+  </td>
+  <td class="py-3 px-2">
+    <a
+      href="{% url 'adverts:application_detail' advert.id application.id %}"
+      class="px-4 py-1 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
+      >View</a
+    >
+  </td>
+  <td class="py-3 px-2">
+    <select
+      id="status"
+      name="status"
+      hx-get="{% url 'adverts:update_application_status' advert.id application.id %}"
+      hx-swap= "innerHtml delay:1s"
+      hx-target="#applications-list"
+      class="bg-gray-50 border {% if application.status == 'shortlist' %} border-yellow-700 text-yellow-700{% elif application.status == 'interview' %} border-green-500 text-green-500{% elif application.status == 'reject' %}border-red-700 text-red-700 {% elif application.status == 'pending' %}border-orange-600 text-orange-500{% endif%} text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+    >
+    {% for status in statuses %}
+      <option value="{{ status}}" {% if status == application.status %} selected {% endif %}>{{ status }}</option>
+      {% endfor %}
+    </select>
+  </td>
+</tr>
+{% endfor %}

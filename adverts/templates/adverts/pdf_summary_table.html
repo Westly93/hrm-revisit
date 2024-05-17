@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <section class="max-w-full p-4 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800 mt-5">
+        <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white text-center">{{ advert.title }} Position</h2>
+        <section class="container px-4 mx-auto">
+
+            <div class="flex flex-col mt-6">
+                <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                        <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <thead class="bg-gray-50 dark:bg-gray-800">
+                                    <tr>
+                                        <th scope="col" class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                            Full name
+                                        </th>
+        
+                                        <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                            Age
+                                        </th>
+        
+                                        <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Gender</th>
+        
+                                        <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Experience</th>
+        
+                                        
+                                        
+                                        <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Qualifications</th>
+                                        <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                            References
+                                        </th>
+                                        <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Recommendations</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                                    {% for application in advert.applications.all %}
+                                    <tr>
+                                        <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
+                                            {{ application.applicant.profile.first_name }} {{ application.applicant.profile.surname }}
+                                        </td>
+                                        <td class="px-4 py-4 text-sm whitespace-nowrap">
+                                            {{ application.applicant.profile.age }}
+                                        </td>
+                                        <td class="px-4 py-4 text-sm whitespace-nowrap">
+                                            {{ application.applicant.profile.gender }}
+                                        </td>
+        
+                                        <td class="px-4 py-4 text-sm whitespace-nowrap">
+                                            {% for exp in application.applicant.experience.all %}
+                                            <div>
+                                                <h4 class="text-gray-700 dark:text-gray-200">{{ exp.job_title }}</h4>
+                                                <p class="text-gray-500 dark:text-gray-400">{{exp.company }}</p>
+                                                <p class="text-gray-500 dark:text-gray-400">{{exp.location }}</p>
+                                                <p class="text-gray-500 dark:text-gray-400">{{exp.start_year }}
+                                                    -
+                                                    {% if exp.end_year %} {{ exp.end_year }} {% else %} Present {% endif%}
+                                                </p>
+                                            </div>
+                                            {% if not forloop.last %}
+                                            <hr class="border-gray-200 dark:border-gray-700 ">
+                                            {% endif %}
+                                            {% endfor %}
+                                        </td>
+        
+                                        <td class="px-4 py-4 text-sm whitespace-nowrap">
+                                            {% for q in application.applicant.academic_qualifications.all %}
+                                            <div>
+                                                <h4 class="text-gray-700 dark:text-gray-200">{{ q.field_of_study }}</h4>
+                                                <p class="text-gray-500 dark:text-gray-400">{{q.institution }}</p>
+                                                <p class="text-gray-500 dark:text-gray-400">{{q.grade }}</p>
+                                                <p class="text-gray-500 dark:text-gray-400">
+                                                    {{q.start_year }} - {{ q.end_year }}
+                                                    
+                                                </p>
+                                            </div>
+                                            {% if not forloop.last %}
+                                            <hr class="border-gray-200 dark:border-gray-700 ">
+                                            {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                        <td class="px-4 py-4 text-sm whitespace-nowrap">
+                                            {% for ref in application.applicant.references.all %}
+                                            <div class="my-1">
+                                                <h4 class="text-gray-700 dark:text-gray-200">{{ ref.position }}</h4>
+                                                <p class="text-gray-500 dark:text-gray-400">{{ref.title }} {{ref.full_name}}</p>
+                                                <p class="text-gray-500 dark:text-gray-400">{{ref.email }}</p>
+                                                <p class="text-gray-500 dark:text-gray-400">{{ref.contact_phone }}
+                                                </p>
+                                                <p class="text-gray-500 dark:text-gray-400">{{ref.organization }}
+                                                </p>
+                                            </div>
+                                            {% if not forloop.last %}
+                                            <hr class="border-gray-200 dark:border-gray-700 ">
+                                            {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                        <td class="px-4 py-4 text-sm whitespace-nowrap">
+                                            <div>
+                                                <textarea class="block  mt-2 w-full placeholder-gray-400/70 dark:placeholder-gray-500 rounded-lg border border-gray-200 bg-white px-4 h-32 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300"></textarea>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+        
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        </section>
+        
+    </section>
+</body>
+</html>

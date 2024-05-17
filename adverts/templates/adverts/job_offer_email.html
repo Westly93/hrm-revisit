@@ -1,0 +1,12 @@
+{% extends "base.html" %} {% load tailwind_filters %}{% block content %}
+<section
+  class="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800"
+>
+  <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white">
+    Congratulations for making it.
+  </h2>
+  <p>{{ body }}</p>
+  <a href="{{ protocol }}://{{ domain }}{{ job_offer.documents.url }}">Download Your Documents</a>
+</section>
+
+{% endblock content %}

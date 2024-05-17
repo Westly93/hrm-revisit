@@ -1,0 +1,10 @@
+{% extends "base.html" %} {% load tailwind_filters %}{% block content %}
+<section class="max-w-[1024px] mx-auto bg-slate-50 shadow-lg px-20">
+  <form class="p-8" action="">
+    <legend class="text-3xl my-4">Create New Requirement</legend>
+    {% csrf_token %}
+    <div class="flex flex-col">{{form|crispy}}</div>
+  </form>
+</section>
+
+{% endblock content %}

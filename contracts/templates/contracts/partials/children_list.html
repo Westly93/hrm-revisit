@@ -1,0 +1,12 @@
+{% for child in obj.employee.children.all %}
+<div class="w-full">
+  <div class="flex w-full py-3">
+    <p class="w-2/5">Full Name</p>
+    <p class="w-3/5">{{child.full_name}}</p>
+  </div>
+  <div class="flex w-full py-3">
+    <p class="w-2/5">Date of Birth</p>
+    <p class="w-3/5">{{child.date_of_birth}}</p>
+  </div>
+</div>
+{% endfor %}

@@ -1,0 +1,83 @@
+{% extends "base.html" %} {% block content %}
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+  <div class="mb-7 flex justify-between p-4">
+    <h3 class="text-2xl">{{advert.title }} Summary table</h3>
+    <a
+      href="{% url 'adverts:export_summary_table' advert.id %}"
+      class="bg-teal-500 p-2 rounded mb-4"
+      >Export to csv
+    </a>
+  </div>
+
+  <table
+    class="w-full table-fixed text-sm text-left text-gray-500 dark:text-gray-400 p-4"
+  >
+    <thead
+      class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+    >
+      <tr>
+        <th scope="col" class="px-6 py-3">Full Name</th>
+        <th scope="col" class="px-6 py-3">Contacts</th>
+        <th scope="col" class="px-6 py-3">Experience</th>
+        <th scope="col" class="px-6 py-3">Qualifications</th>
+        <th scope="col" class="px-6 py-3">References</th>
+        <th scope="col" class="px-6 py-3">Date Applied</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for application in advert.applications.all %}
+      <tr
+        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+      >
+        <th
+          class="px-2 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+        >
+          {{application.applicant.full_name}}
+        </th>
+
+        <td class="px-1 py-4">
+          {% if application.applicant.contacts.exists %}
+          <!--Lopping through contacts-->
+          {% for contact in application.applicant.contacts.all %}
+          <span class="w-full">{{ contact.contact_phone }}</span>
+          {% endfor %} {% else %}
+          <span>N/A</span>
+          {% endif %}
+        </td>
+        <td class="px-2 py-4">
+          {% if application.applicant.experience.exists %}
+          <!---->{% for experience in application.applicant.experience.all %}
+          <span>{{ experience.job_title}}</span>
+          {% if not forloop.last %} , {% endif %} {% endfor %} {% else %}
+          <span>N/A</span>
+          {% endif %}
+        </td>
+        <td class="px-2 py-4">
+          {% if application.applicant.academic_qualifications.exists %}<!---->
+          {% for q in application.applicant.academic_qualifications.all %}
+          <span>{{ q.level}} - {{q.grade}}</span>
+          {% if not forloop.last %} , {% endif %} {% endfor %} {% else %}
+          <span>N/A</span>
+          {% endif %}
+        </td>
+        <td class="px-2 py-4">
+          {% if application.applicant.references.exists %}
+          <!--Looping through references -->
+          {% for reference in application.applicant.references.all %}
+          <span
+            >{{ reference.full_name}} - {{reference.organization}} -
+            {{reference.position}} - {{reference.email}} -
+            {{reference.contact_phone}}</span
+          >
+          {% if not forloop.last %} , {% endif %} {% endfor %} {% else %}
+          <span>N/A</span>
+          {% endif %}
+        </td>
+        <td class="px-2 py-4">{{ application.date_applied|date:"d-m-Y"}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock content %}

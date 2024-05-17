@@ -1,0 +1,49 @@
+{% extends "base.html" %} {% block content %}
+<div>
+  {% if interview_scores.exists %}
+  <h3 class="text-3xl my-5 text-center">
+    Interview Scores for {{advert.title}}({{interview_scores|length}})
+  </h3>
+  <table class="table-auto w-full">
+    <thead>
+      <tr class="h-[70px] bg-teal-500 rounded-lg text-left">
+        <th class="px-2">Name</th>
+        <th class="px-2">Gender</th>
+        <th class="px-2">Score</th>
+        <th class="px-2">Offer Job</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for score in interview_scores %}
+      <tr>
+        <td class="py-3 px-2">
+          {{score.candidate.profile.first_name }}
+          {{score.candidate.profile.surname }}
+        </td>
+        <td class="py-3 px-2">{{score.candidate.profile.gender }}</td>
+        <td class="py-3 px-2">{{score.overall_score}}%</td>
+        <td>
+          {% if not score.offered_job %}
+          <a
+            href="{% url 'adverts:send_job_offer' advert.id score.id %}"
+            class="bg-cyan-500 py-1 px-2 rounded-md"
+            >Send offer</a
+          >
+        </td>
+        {% else %}
+        <a
+          href="{% url 'adverts:view_reply' advert.id score.id%}"
+          class="bg-cyan-500 py-1 px-2 rounded-md"
+          >View reply</a
+        >
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>No interview scores for this advert</p>
+  {% endif %}
+</div>
+{% endblock %}

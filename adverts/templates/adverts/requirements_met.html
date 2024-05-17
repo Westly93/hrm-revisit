@@ -1,0 +1,41 @@
+{% extends "base.html" %} {% block content %}
+<div
+  class="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800"
+>
+  <form
+    method="post"
+    enctype="multipart/form-data"
+    id="requirement-form-container"
+    class="w-full max-w-lg"
+  >
+    {% csrf_token %}
+    <legend class="text-2xl mb-3">
+      Answer the following questions honestly
+    </legend>
+    {% for requirement in advert.requirements.all %}
+    <div class="flex items-center mb-4">
+      <input
+        class="mr-2 leading-tight"
+        type="checkbox"
+        id="requirement-{{ requirement.id }}"
+        name="requirements"
+        value="{{ requirement.id }}"
+      />
+      <label
+        class="block font-medium text-gray-700"
+        for="requirement-{{ requirement.id }}"
+      >
+        {{ requirement.description }}?
+      </label>
+    </div>
+    {% endfor %}
+    <div class="flex justify-start mt-6">
+      <button
+        class="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
+      >
+        Next
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock content %}

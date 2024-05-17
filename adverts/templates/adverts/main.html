@@ -1,0 +1,100 @@
+{% extends "base.html" %} {% block content %}
+<section class="max-w-[1024px]">
+  <div id="messages">{% include "adverts/partials/toasts.html" %}</div>
+  {% if adverts|length > 0 %}
+  <h3 class="text-2xl mb-4 text-center uppercase">Job Adverts</h3>
+  <div class="flex mb-5">
+    <div class="w-3/5 mt-4 mr-3">
+      <label
+        for="countries"
+        class="block mb-2 text-sm font-medium text-gray-700 dark:text-white"
+        >Select department</label
+      >
+      <select
+        hx-get="{% url 'adverts:filter_adverts' %}"
+        hx-target="#adverts"
+        hx-swap="innerHTML 1s"
+        id="departments"
+        name="department_name"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      >
+        <option selected>Choose Department</option>
+        {% for department_name in department_names %}
+        <option value="{{department_name}}">{{department_name}}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="w-2/5 my-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="job-title">
+        Job Title
+      </label>
+      <input
+        hx-get="{% url 'adverts:search_adverts' %}"
+        hx-trigger="keyup
+      changed delay:1s"
+        hx-target="#adverts"
+        hx-swap="innerHTML"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="job-title"
+        type="text"
+        name="advert_title"
+        placeholder="e.g Data Scientist"
+      />
+    </div>
+  </div>
+
+  <div>
+    <div id="adverts">{% include 'adverts/partials/adverts.html' %}</div>
+    <!--Pagination-->
+    {% if is_paginated %}
+    <div class="flex mt-5 justify-center">
+      {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}" class="px-4 py-2 mx-1 text-gray-500 capitalize bg-white rounded-md dark:bg-gray-800 dark:text-gray-600">
+          <div class="flex items-center -mx-1">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mx-1 rtl:-scale-x-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+              </svg>
+  
+              <span class="mx-1">
+                  previous
+              </span>
+          </div>
+      </a>
+      {% endif %}
+      {% for num in page_obj.paginator.page_range %}
+      {% if page_obj.number == num %}
+  
+      <a href="?page={{ num }}" class="hidden px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform rounded-md sm:inline dark:bg-gray-800 dark:text-gray-200 bg-blue-500 dark:hover:bg-blue-500 hover:text-white dark:hover:text-gray-200">
+          {{ num }}
+      </a>
+      {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+  
+      <a href="?page={{ num }}" class="hidden px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-white rounded-md sm:inline dark:bg-gray-800 dark:text-gray-200 hover:bg-blue-500 dark:hover:bg-blue-500 hover:text-white dark:hover:text-gray-200">
+          {{ num }}
+      </a>
+      {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}" class="px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-white rounded-md dark:bg-gray-800 dark:text-gray-200 hover:bg-blue-500 dark:hover:bg-blue-500 hover:text-white dark:hover:text-gray-200">
+          <div class="flex items-center -mx-1">
+              <span class="mx-1">
+                  Next
+              </span>
+  
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mx-1 rtl:-scale-x-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+          </div>
+      </a>
+      {% endif %}
+  </div>
+  </div>
+  {% endif %}
+  <!--/Pagination-->
+  {% else %}
+  <p>No adverts ....</p>
+  {% endif %}
+</section>
+{% endblock content %}

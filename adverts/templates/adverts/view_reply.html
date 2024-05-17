@@ -1,0 +1,10 @@
+{% extends "base.html" %} {% block content %} {% if job_offer %}
+<div>
+  {{job_offer.job_offer_reply.message}}<br />
+  <a class="text-blue-500" href="{{job_offer.job_offer_reply.attachment.url}}"
+    >view file</a
+  >
+</div>
+{% else %}
+<strong>No Reply yet... </strong>
+{% endif %} {% endblock content %}

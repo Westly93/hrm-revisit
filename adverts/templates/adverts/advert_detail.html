@@ -1,0 +1,91 @@
+{% extends "base.html" %} {% block content %}
+<section
+  class="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800"
+>
+  <div>
+    <div class="mx-auto p-4 my-2">
+      <div class="mb-4">
+        <h3 class="text-3xl font-bold text-gray-500">{{ advert.title}}</h3>
+        <p class="text-xl text-blue-600">{{ advert.department }}</p>
+        <small class="font-medium text-gray-400"
+          ><i class="fa-regular fa-clock"></i> Expires
+          <!---->{{ advert.closing_date|date:"F d, Y"}} </small
+        ><br />
+      </div>
+      <div class="mb-5">
+        <p>{{advert.content|safe}}</p>
+      </div>
+      <h4 class="py-2 text-2xl font-semibold">Job Requirements</h4>
+      <ul class="px-2">
+        {% for requirement in advert.requirements.all %}
+        <li class="py-2 list-disc">{{requirement.description}}</li>
+        {% endfor %}
+      </ul>
+      <br />
+      <hr />
+      {% if not user.is_admin %}
+      <div class="flex justify-between">
+        {% if has_applied %}
+        <div class="flex justify-start mt-6">
+          <a
+            href="{% url 'adverts:application_feedback' advert.id %}"
+            class="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
+            >Application Feedback</a
+          >
+        </div>
+
+        {% else %} {% if not advert.has_expired %}
+        <!---->
+        {% if request.user.profile.get_profile_completion < 75 %}
+
+        <hr />
+        <div class="text-left text-sm text-red-500 font-semibold">
+          Your profile is too weak, Please fill in your profile
+          <a class="text-blue-600" href="{% url 'accounts:dashboard' %}"
+            >here</a
+          >
+          then comeback and apply
+        </div>
+        {% else %} {% if user.references.count < 3 %}
+        <div class="text-left text-sm text-red-500 font-semibold">
+          Please Note, You Need at least three references to apply
+          <a class="text-blue-600" href="{% url 'accounts:dashboard' %}"
+            >dashboard</a
+          >
+        </div>
+        {% else %}
+
+        <div class="flex justify-end mt-3">
+          <a
+            href="{% url 'adverts:apply' advert.id %}"
+            class="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
+            >Apply</a
+          >
+        </div>
+        {% endif %} {% endif %} {% endif %} {% endif %}<!---->
+      </div>
+      {% else %}
+      <div>
+        {% if advert.has_expired %} {% if request.user.is_staff %}
+        <div class="flex justify-start mt-6">
+          <a
+            href="{% url 'adverts:applications' advert.id %}"
+            class="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
+            >Vew Applications</a
+          >
+        </div>
+        <div class="flex justify-end mt-6">
+          <a
+            href="{% url 'adverts:interview_scores' advert.id %}"
+            class="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
+            >Vew scores</a
+          >
+        </div>
+
+        {% endif %} {% endif %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock content %}

@@ -1,0 +1,33 @@
+{% for requirement in advert.requirements.all %}
+<form hx-target="this" hx-swap="outerHTML" class="">
+  <article class="flex mt-4 mb-3">
+    <div class="w-4/5">
+      <p>{{ requirement.description}}</p>
+    </div>
+    <div class="w-1/5">
+      <p>{{requirement.weight}}%</p>
+    </div>
+    <div class="w-1/5 flex">
+      <button
+        hx-get="{% url 'adverts:edit_requirement' advert.id requirement.id %}"
+        hx-target="closest form"
+        hx-swap="outerHTML"
+        class="text-green-600 py-1 px-3"
+      >
+        <i class="fa-solid fa-pen-to-square"></i>
+      </button>
+      <a
+        hx-target="closest form"
+        hx-swap="outerHTML swap:1s"
+        hx-delete="{% url 'adverts:requirement_delete' advert.id requirement.id %}"
+        href="#"
+        class="py-1 px-3 text-red-600 rounded-sm"
+        ><i class="fa-solid fa-trash"></i
+      ></a>
+    </div>
+  </article>
+</form>
+{% endfor %}
+<div id="messages" hx-swap-oob="true" hx-swap="innerHTML">
+  {% include "adverts/partials/toasts.html" %}
+</div>

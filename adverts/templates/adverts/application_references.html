@@ -1,0 +1,42 @@
+{% extends "base.html" %} {% load i18n %}{% load tailwind_filters %}
+
+<!---->
+{% block head %} {{ wizard.form.media }} {% endblock %} {% block content %}
+<section
+  class="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800"
+>
+  <p>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
+  <form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table>
+      {{ wizard.management_form }} {% if wizard.form.forms %} {{
+      wizard.form.management_form }} {% for form in wizard.form.forms %}
+      <!---->
+      {{ form|crispy }} {% endfor %} {% else %} {{ wizard.form|crispy }}
+      <!---->
+      {% endif %}
+    </table>
+    {% if wizard.steps.prev %}
+    <button
+      name="wizard_goto_step"
+      type="submit"
+      value="{{ wizard.steps.first }}"
+      class="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
+    >
+      {% translate "first step" %}
+    </button>
+    <button
+      name="wizard_goto_step"
+      type="submit"
+      value="{{ wizard.steps.prev }}"
+      class="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
+    >
+      {% translate "prev step" %}
+    </button>
+    {% endif %} <input type="submit" value="{% translate "submit" %}"
+    class="px-8 py-2.5 leading-5 text-white transition-colors duration-300
+    transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none
+    focus:bg-gray-600" />
+  </form>
+</section>
+{% endblock %}

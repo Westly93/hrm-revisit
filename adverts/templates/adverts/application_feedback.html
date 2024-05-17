@@ -1,0 +1,30 @@
+{% extends 'base.html' %} {% block content %}
+<div>
+  <h4>
+    Here is Your Interview Results for the post of
+    <strong>"{{advert.title}}"</strong> which was held on
+    {{interview.interview_date}}
+  </h4>
+  <p class="text-xl my-4">Comment</p>
+  <p class="py-3">{{ interview.comments}}</p>
+  <p class="py-3">
+    Overall Score: <strong>{{ interview.overall_score}}</strong>
+  </p>
+  {% if interview.offered_job %}
+  <div>
+    <h3 class="font-semibold text-red-600">
+      The Job offer has been send to your email please check your email and then
+      come back and reply to our job offer
+    </h3>
+    <button
+      hx-get="{% url 'adverts:job_offer_reply' advert.id job_offer.id %}"
+      hx-target="#job-offer-reply"
+      hx-swap="innerHTML"
+      class="bg-teal-500 text-black py-2 px-3 rounded-md mt-4"
+    >
+      Reply to job offer
+    </button>
+  </div>
+
+  {% endif %} {% endblock content %}
+</div>

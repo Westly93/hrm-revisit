@@ -1,0 +1,21 @@
+<form hx-target="this" hx-swap="outerHTML" class="">
+  {% csrf_token%}
+  <article class="flex mt-4 mb-3">
+    <div class="w-[700px]">
+      <p>{{ form.description }}</p>
+    </div>
+    <div class="w-1/5">
+      <p>{{form.weight}}</p>
+    </div>
+    <div class="w-1/5 flex ml-20">
+      <button
+        hx-target="closest form"
+        hx-swap="outerHTML swap:1s"
+        hx-delete=""
+        class="py-1 px-3 border-red-700 rounded-sm"
+      >
+        update
+      </button>
+    </div>
+  </article>
+</form>

@@ -1,0 +1,26 @@
+{% for qualification in obj.employee.academic_qualifications.all %}
+<div class="flex w-full py-3">
+  <p class="w-2/5">Level</p>
+  <p class="w-3/5">{{qualification.level}}</p>
+</div>
+<div class="flex w-full py-3">
+  <p class="w-2/5">Institution</p>
+  <p class="w-3/5">{{qualification.institution}}</p>
+</div>
+<div class="flex w-full py-3">
+  <p class="w-2/5">Field of study</p>
+  <p class="w-3/5">{{qualification.field_of_study}}</p>
+</div>
+<div class="flex w-full py-3">
+  <p class="w-2/5">Year Started</p>
+  <p class="w-3/5">{{qualification.start_year}}</p>
+</div>
+<div class="flex w-full py-3">
+  <p class="w-2/5">Year Finished</p>
+  <p class="w-3/5">{{qualification.end_year}}</p>
+</div>
+<div class="flex w-full py-3">
+  <p class="w-2/5">attachments</p>
+  <p class="w-3/5">{{qualification.attachment}}</p>
+</div>
+{% endfor %}

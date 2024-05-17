@@ -1,0 +1,15 @@
+{% load tailwind_filters %}
+<form
+  hx-encoding="multipart/form-data"
+  hx-target="this"
+  hx-swap="outerHTML delay:1s"
+  hx-post="{% url 'adverts:job_offer_reply' advert.id job_offer.id %}"
+>
+  <legend class="mb-4 font-semibold">Reply to job offer</legend>
+  {% csrf_token %} {{ form|crispy}}
+  <button
+    class="bg-teal-500 text-black p-2 rounded hover:bg-black hover:text-teal-500"
+  >
+    reply
+  </button>
+</form>

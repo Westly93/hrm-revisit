@@ -1,0 +1,37 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<section
+  class="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800"
+>
+  <div class="block md:max-w-lg mt-12">
+    <img
+      src="{% static 'images/404.svg' %}"
+      alt="astronaut image"
+    />
+  </div>
+  <div class="text-center xl:max-w-4xl">
+    <h1
+      class="mb-3 text-2xl font-bold leading-tight text-gray-900 sm:text-4xl lg:text-5xl dark:text-white"
+    >
+      Page not found
+    </h1>
+    <p
+      class="mb-5 text-base font-normal text-gray-500 md:text-lg dark:text-gray-400"
+    >
+      Oops! Looks like you followed a bad link. If you think this is a problem
+      with us, please tell us.
+    </p>
+    <div class="flex justify-end mt-6">
+        <a
+            href="{% url 'adverts:adverts' %}"
+            class="px-8 py-2.5 flex space-x-1 items-center leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4">
+                <path d="M8.5 4.75a.75.75 0 0 0-1.107-.66l-6 3.25a.75.75 0 0 0 0 1.32l6 3.25a.75.75 0 0 0 1.107-.66V8.988l5.393 2.921A.75.75 0 0 0 15 11.25v-6.5a.75.75 0 0 0-1.107-.66L8.5 7.013V4.75Z" />
+              </svg>
+                 
+            <span>Go back home</span>
+        </a>
+    </div>
+    
+  </div>
+</section>
+{% endblock content %}

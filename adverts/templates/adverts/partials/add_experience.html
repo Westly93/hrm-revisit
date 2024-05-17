@@ -1,0 +1,167 @@
+<div
+  x-show="showExperienceModal"
+  id="experience-modal"
+  tabindex="-1"
+  aria-hidden="true"
+  class="fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden flex justify-center overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
+>
+  <div
+    @click.outside="showExperienceModal=false"
+    class="w-full max-w-xl max-h-full"
+  >
+    <!-- Modal content -->
+    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+      <button
+        @click="showExperienceModal=false"
+        type="button"
+        class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+        data-modal-hide="authentication-modal"
+      >
+        <svg
+          class="w-3 h-3"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 14 14"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+          />
+        </svg>
+        <span class="sr-only">Close modal</span>
+      </button>
+      <div class="px-6 py-6 lg:px-8">
+        <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
+          Add Experience
+        </h3>
+        <form
+          hx-encoding="multipart/form-data"
+          hx-post="{% url 'adverts:add_experience' %}"
+          hx-swap="outerHTML"
+          hx-target="#experience"
+          class="space-y-6"
+          x-data="{show:true}"
+        >
+          {% csrf_token %}
+
+          <div>
+            <label
+              for="job-title"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Job Title</label
+            >
+            <input
+              type="text"
+              name="job_title"
+              id="job_title"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              placeholder="e.g E-Learning Developer"
+              required
+            />
+          </div>
+          <div>
+            <label
+              for="job-title"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Company</label
+            >
+            <input
+              type="text"
+              name="company"
+              id="company"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              placeholder="e.g Midlands State University"
+              required
+            />
+          </div>
+          <div>
+            <label
+              for="job-title"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Location</label
+            >
+            <input
+              type="text"
+              name="location"
+              id="location"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              placeholder="e.g Gweru"
+              required
+            />
+          </div>
+          <div class="flex items-start">
+            <div class="flex items-center h-5">
+              <input
+                name="checkbox"
+                x-model="show"
+                id="remember"
+                type="checkbox"
+                class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
+              />
+            </div>
+            <label
+              for="remember"
+              class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+              >currently working in that role
+            </label>
+          </div>
+          <div x-show="!show">
+            <label
+              for="message"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Description</label
+            >
+            <textarea
+              x-bind:required="!show"
+              id="description"
+              name="description"
+              rows="2"
+              class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            ></textarea>
+          </div>
+          <div class="flex justify-between">
+            <div class="w-1/2 px-2">
+              <label
+                for="job-title"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Start Date</label
+              >
+              <input
+                type="date"
+                name="start_date"
+                id="start_date"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                required
+              />
+            </div>
+            <div x-show="!show" class="w-1/2 px-2">
+              <label
+                for="job-title"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >End Date</label
+              >
+              <input
+                type="date"
+                name="end_date"
+                id="end_date"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                x-bind:required="!show"
+              />
+            </div>
+          </div>
+          <button
+            @click.debounce.100ms="showExperienceModal= false"
+            type="submit"
+            class="w-full text-white bg-teal-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Add <i class="fa-solid fa-plus"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

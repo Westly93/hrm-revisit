@@ -1,0 +1,10 @@
+{% extends 'base.html' %} {% block content %} {% if adverts.exists %}
+<div>
+  <h3 class="uppercase text-center mb-4 text-2xl font-semibold">
+    The Jobs You have applied for
+  </h3>
+  {% include "adverts/partials/adverts.html" %}
+</div>
+{% else %}
+<div class="font-semibold">You have not applied to any job post</div>
+{% endif %} {% endblock content %}
