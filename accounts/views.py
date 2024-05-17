@@ -55,8 +55,9 @@ def activate(request, uidb64, token):
 
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
+        if user.email.endswith('@staff.msu.ac.zw'):
+            user.is_staff = True
         user.save()
-
         messages.success(
             request, "Thank you for your email confirmation. Now you can login your account.")
         return redirect('accounts:login')
@@ -94,9 +95,7 @@ class UserRegisterView(View):
     def post(self, request, *args, **kwargs):
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.is_active = False
-            user.save()
+            user = form.save(commit=True)
             try:
                 activateEmail(request, user, form.cleaned_data.get('email'))
                 messages.success(

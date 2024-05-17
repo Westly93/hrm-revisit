@@ -240,7 +240,7 @@ EMAIL_PASSWORD_TOKEN_LIFE = 60 * 10  # 10 minutes
 EMAIL_PASSWORD_PAGE_TEMPLATE = 'password_changed_template.html'
 EMAIL_PASSWORD_CHANGE_PAGE_TEMPLATE = 'password_change_template.html'
 EMAIL_PASSWORD_CALLBACK = password_change_callback
-
+SOCIALACCOUNT_ADAPTER = 'accounts.adapters.CustomSocialAccountAdapter'
 CRISPY_TEMPLATE_PACK = "tailwind"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
